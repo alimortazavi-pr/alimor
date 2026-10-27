@@ -1,0 +1,264 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--sans-stack);
+  --font-display: var(--display-stack);
+  --font-serif: var(--serif-stack);
+  --font-mono: var(--mono-stack);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-violet: var(--violet);
+  --color-ember: var(--ember);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-marquee: marquee var(--marquee-duration, 45s) linear infinite;
+  --animate-marquee-reverse: marquee var(--marquee-duration, 45s) linear infinite reverse;
+}
+
+:root {
+  color-scheme: dark;
+  --background: #070709;
+  --foreground: #f3f0e9;
+  --muted: #9a968d;
+  --faint: #5c5a55;
+  --line: rgb(255 255 255 / 0.08);
+  --surface: rgb(255 255 255 / 0.03);
+  --accent: #d4ff3f;
+  --accent-foreground: #0b0d02;
+  --violet: #7b5cff;
+  --ember: #ff6b3d;
+
+  /*
+   * The Latin display faces have no Persian/Arabic glyphs, and next/font puts an Arial fallback right
+   * after them, so RTL pages would render in Arial. RTL uses Vazirmatn everywhere; LTR gets the Latin faces.
+   */
+  --sans-stack: var(--font-vazirmatn), ui-sans-serif, system-ui, sans-serif;
+  --display-stack: var(--font-vazirmatn), ui-sans-serif, system-ui, sans-serif;
+  --serif-stack: var(--font-vazirmatn), ui-serif, serif;
+  --mono-stack: var(--font-vazirmatn), ui-monospace, monospace;
+}
+
+[dir="ltr"] {
+  --sans-stack: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --display-stack: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --serif-stack: var(--font-instrument), ui-serif, Georgia, serif;
+  --mono-stack: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+  html {
+    background: var(--background);
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  /* Lenis drives scrolling; native smooth scroll would fight it */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+}
+
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(255 255 255 / 0.22);
+}
+
+@utility glass {
+  background: rgb(18 18 22 / 0.55);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgb(255 255 255 / 0.08);
+}
+
+/* A border that lights up under the cursor: --mx/--my are written by the spotlight hook */
+@utility spotlight {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 50%),
+      rgb(212 255 63 / 0.55),
+      rgb(123 92 255 / 0.25) 40%,
+      transparent 70%
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: var(--spot, 0);
+    transition: opacity 0.4s;
+    pointer-events: none;
+    z-index: 1;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      600px circle at var(--mx, 50%) var(--my, 50%),
+      rgb(255 255 255 / 0.045),
+      transparent 60%
+    );
+    opacity: var(--spot, 0);
+    transition: opacity 0.4s;
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+/* Film grain over everything: an inline SVG noise tile, so no request */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 1.2s steps(6) infinite;
+}
+
+@keyframes grain {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-3%, 2%);
+  }
+  40% {
+    transform: translate(2%, -4%);
+  }
+  60% {
+    transform: translate(-4%, -1%);
+  }
+  80% {
+    transform: translate(3%, 3%);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% * var(--marquee-dir, 1)));
+  }
+}
+
+[dir="rtl"] {
+  --marquee-dir: -1;
+}
+[dir="ltr"] {
+  --marquee-dir: 1;
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 rgb(212 255 63 / 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgb(212 255 63 / 0);
+  }
+}
+
+/* Conic border that slowly rotates around the Paradise Code card */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotate-angle {
+  to {
+    --angle: 360deg;
+  }
+}
+
+.conic-border {
+  background:
+    linear-gradient(var(--background), var(--background)) padding-box,
+    conic-gradient(
+        from var(--angle),
+        transparent 0deg,
+        var(--accent) 60deg,
+        var(--violet) 140deg,
+        transparent 220deg,
+        var(--ember) 300deg,
+        transparent 360deg
+      )
+      border-box;
+  border: 1px solid transparent;
+  animation: rotate-angle 8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .grain::after {
+    animation: none;
+  }
+}
+
+html[data-motion="off"] *,
+html[data-motion="off"] *::before,
+html[data-motion="off"] *::after {
+  animation-play-state: paused !important;
+}
+
+/* The custom cursor replaces the native one, except where text is typed */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none;
+}
+html.has-cursor input,
+html.has-cursor textarea {
+  cursor: text;
+}
+
+/* Vazirmatn has no italic; a synthetic slant on Persian/Arabic reads as broken type */
+[dir="rtl"] .italic {
+  font-style: normal;
+}

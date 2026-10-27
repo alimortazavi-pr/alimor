@@ -1,0 +1,25 @@
+# alimor.ir (Ali Mortazavi's personal site). sedalb.ir is an alias that permanently redirects here.
+www.alimor.ir {
+	redir https://alimor.ir{uri} 308
+}
+
+alimor.ir {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		-Server
+	}
+	handle {
+		@hashed path /_next/static/*
+		header @hashed Cache-Control "public, max-age=31536000, immutable"
+		reverse_proxy 127.0.0.1:7742 {
+			health_uri /fa
+			health_interval 30s
+		}
+	}
+}
+
+sedalb.ir, www.sedalb.ir {
+	redir https://alimor.ir{uri} 301
+}

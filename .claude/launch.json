@@ -1,0 +1,18 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "alimor-prod",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".next/standalone/server.js"],
+      "env": { "PORT": "7796", "HOSTNAME": "127.0.0.1" },
+      "port": 7796
+    },
+    {
+      "name": "alimor-dev",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
+      "port": 7796
+    }
+  ]
+}
