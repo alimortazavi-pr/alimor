@@ -2,6 +2,8 @@
 // never add a number or a claim that cannot be verified.
 export const SITE = {
   url: "https://alimor.ir",
+  // Every spelling people search for: Google matches the query against these, so all three appear in markup
+  names: { en: "Ali Mortazavi", fa: "علی مرتضوی", ar: "علي مرتضوي" },
   email: "alimortazavi.pr@gmail.com",
   phone: "+989125519818",
   startedYear: 2016,

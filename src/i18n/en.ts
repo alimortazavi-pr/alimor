@@ -2,9 +2,9 @@ import type { Dictionary } from "./fa";
 
 export const en: Dictionary = {
   meta: {
-    title: "Ali Mortazavi | Senior Front-End Engineer",
+    title: "Ali Mortazavi (علی مرتضوی) | Software Engineer & Founder of Paradise Code",
     description:
-      "Ali Mortazavi: senior front-end engineer, MERN developer and founder of Paradise Code. Building fast, precise, lasting web applications with React, Next.js and TypeScript.",
+      "Ali Mortazavi is a software engineer and the founder of Paradise Code, with 7+ years designing and building fast, lasting software products and web applications, from architecture to deployment, with React, Next.js, Node.js and NestJS.",
   },
   a11y: {
     skip: "Skip to content",
@@ -29,8 +29,8 @@ export const en: Dictionary = {
     lastName: "Mortazavi",
     rolePrefix: "I'm a",
     roles: [
-      "Senior Front-End Engineer",
-      "MERN Stack Developer",
+      "Software Engineer",
+      "Full-Stack Engineer",
       "Founder of Paradise Code",
       "Detail obsessive",
     ],
@@ -44,7 +44,7 @@ export const en: Dictionary = {
   about: {
     label: "About",
     statement:
-      "I've been writing code since I was thirteen. I believe good software isn't seen, it's felt: a page that opens instantly, motion that lands exactly right, and architecture that still stands years later.",
+      "I'm Ali Mortazavi, and I've been writing code since I was thirteen. I believe good software isn't seen, it's felt: a page that opens instantly, motion that lands exactly right, and architecture that still stands years later.",
     body: "I've worked on data-heavy platforms, offline-first systems and performance-critical interfaces, always with a focus on clean architecture and real-world use.",
   },
   stats: {
@@ -58,7 +58,7 @@ export const en: Dictionary = {
   },
   journey: {
     label: "Journey",
-    title: "From self-taught teen to senior engineer",
+    title: "From self-taught teen to senior software engineer",
     hint: "A path built on curiosity and craft",
     items: [
       {
@@ -81,9 +81,9 @@ export const en: Dictionary = {
       },
       {
         year: "2025",
-        title: "Senior front-end engineer",
+        title: "Senior software engineer",
         role: "Open to opportunities",
-        body: "Crafting high-performance web experiences with TypeScript, Next.js and NestJS, from architecture to deployment.",
+        body: "Designing and building high-performance software products with TypeScript, Next.js, Node.js and NestJS, from architecture to deployment.",
       },
     ],
   },

@@ -7,6 +7,18 @@ const nextConfig: NextConfig = {
   // The server has no native sharp binary and the site ships no raster images that need resizing
   images: { unoptimized: true },
   outputFileTracingExcludes: { "*": ["**/@img/**", "**/sharp/**"] },
+  // The previous alimor.ir (English) is indexed under these paths; keep their ranking by pointing them home
+  async redirects() {
+    return [
+      { source: "/contact", destination: "/en#contact", permanent: true },
+      {
+        source: "/:page(about|resume|projects|portfolios|blog)",
+        destination: "/en",
+        permanent: true,
+      },
+      { source: "/:page(portfolios|projects)/:slug*", destination: "/en", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

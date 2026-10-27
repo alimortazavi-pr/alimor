@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Ali Mortazavi: Senior Front-End Engineer";
+export const alt = "Ali Mortazavi (علی مرتضوی): Software Engineer & Founder of Paradise Code";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -40,7 +40,7 @@ export default function OpengraphImage() {
           Mortazavi<span style={{ color: "#d4ff3f" }}>.</span>
         </div>
         <div style={{ fontSize: 36, marginTop: 28, color: "#9a968d" }}>
-          Senior Front-End Engineer · Founder of Paradise Code
+          Software Engineer · Founder of Paradise Code
         </div>
       </div>
     </div>,

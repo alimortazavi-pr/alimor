@@ -56,31 +56,52 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const dict = getDictionary(locale);
+  const name = SITE.names[locale];
   return {
     metadataBase: new URL(SITE.url),
-    title: dict.meta.title,
+    title: { absolute: dict.meta.title },
     description: dict.meta.description,
-    applicationName: "Ali Mortazavi",
-    authors: [{ name: "Ali Mortazavi", url: SITE.url }],
-    creator: "Ali Mortazavi",
+    applicationName: name,
+    authors: [{ name, url: SITE.url }],
+    creator: name,
+    publisher: name,
+    keywords: [
+      ...Object.values(SITE.names),
+      ...dict.hero.roles.slice(0, 3),
+      "Paradise Code",
+      "پارادایس کد",
+      "alimor",
+    ],
     alternates: {
       canonical: `/${locale}`,
       languages: { ...Object.fromEntries(LOCALES.map((l) => [l, `/${l}`])), "x-default": "/fa" },
     },
     openGraph: {
       type: "profile",
-      siteName: "Ali Mortazavi",
+      siteName: name,
       title: dict.meta.title,
       description: dict.meta.description,
       locale: LOCALE_META[locale].og,
+      alternateLocale: LOCALES.filter((l) => l !== locale).map((l) => LOCALE_META[l].og),
       url: `/${locale}`,
+      firstName: dict.hero.firstName,
+      lastName: dict.hero.lastName,
+      username: "alimortazavi-pr",
     },
     twitter: {
       card: "summary_large_image",
       title: dict.meta.title,
       description: dict.meta.description,
     },
-    robots: { index: true, follow: true },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+    },
+    // Search Console: set the token at build time if the HTML-tag method is used instead of a DNS record
+    verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+      : undefined,
   };
 }
 

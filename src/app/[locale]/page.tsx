@@ -16,7 +16,7 @@ import { Paradise } from "@/components/sections/paradise";
 import { Stats } from "@/components/sections/stats";
 import { getDictionary } from "@/i18n";
 import { isLocale, localizeDigits } from "@/lib/i18n";
-import { personJsonLd } from "@/lib/structured-data";
+import { siteJsonLd } from "@/lib/structured-data";
 
 // Checked at build time: the résumé buttons only appear once public/resume.pdf exists
 const HAS_RESUME = existsSync(join(process.cwd(), "public", "resume.pdf"));
@@ -45,7 +45,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <Cursor />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd(locale, dict)) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(siteJsonLd(locale, dict)).replace(/</g, "\\u003c"),
+        }}
       />
     </>
   );
